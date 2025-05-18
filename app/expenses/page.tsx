@@ -133,7 +133,7 @@ export default function ExpensesPage() {
     <div className="min-h-screen bg-white text-white p-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center mb-6">
-          <Button variant="ghost" size="icon" onClick={() => router.push("/")} className="mr-2 text-white">
+          <Button variant="ghost" size="icon" onClick={() => router.push("/")} className="mr-2 text-black bg-gray-200">
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-2xl font-bold">Expense Data</h1>
@@ -158,7 +158,7 @@ export default function ExpensesPage() {
                     <Button
                       variant="ghost"
                       onClick={() => handleSort("date")}
-                      className="text-white hover:text-white p-0 h-auto font-medium"
+                      className="text-white hover:text-black p-0 h-auto font-medium"
                     >
                       Day
                       <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -169,7 +169,7 @@ export default function ExpensesPage() {
                     <Button
                       variant="ghost"
                       onClick={() => handleSort("tag")}
-                      className="text-white hover:text-white p-0 h-auto font-medium"
+                      className="text-white hover:text-black p-0 h-auto font-medium "
                     >
                       Category
                       <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -179,7 +179,7 @@ export default function ExpensesPage() {
                     <Button
                       variant="ghost"
                       onClick={() => handleSort("amount")}
-                      className="text-white hover:text-white p-0 h-auto font-medium ml-auto"
+                      className="text-white hover:text-black p-0 h-auto font-medium ml-auto"
                     >
                       Amount
                       <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -210,7 +210,7 @@ export default function ExpensesPage() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-white hover:text-gray-300"
+                              className="h-8 w-8 text-white hover:text-gray-700"
                               onClick={() => handleEditExpense(expense)}
                             >
                               <Edit className="h-4 w-4" />
@@ -250,9 +250,9 @@ export default function ExpensesPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-6 right-6">
+      <div className="fixed bottom-12 right-12">
         <Button onClick={() => setIsAddModalOpen(true)} className="rounded-full h-14 w-14 p-0 bg-black shadow-lg">
-          <Plus className="h-6 w-6" />
+          <Plus className="h-10 w-10" />
         </Button>
       </div>
 

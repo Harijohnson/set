@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
@@ -9,18 +8,18 @@ import { Calendar } from "@/components/ui/calendar"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
-  DialogDescription,
 } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 import type { Expense, Tag } from "./expense-manager"
 import { TagSelector } from "./tag-selector"
 
@@ -46,7 +45,6 @@ interface AddExpenseModalProps {
 }
 
 export function AddExpenseModal({ isOpen, onClose, onAddExpense, tags, onAddTag }: AddExpenseModalProps) {
-  const [date, setDate] = useState<Date>(new Date())
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -128,7 +126,7 @@ export function AddExpenseModal({ isOpen, onClose, onAddExpense, tags, onAddTag 
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date</FormLabel>
-                  <Popover>
+                  <Popover modal>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button

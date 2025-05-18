@@ -60,28 +60,30 @@ export function SpiderChart({ currentMonth, onPreviousMonth, onNextMonth, expens
   return (
     <div className="rounded-lg overflow-hidden">
       <div className="flex justify-between items-center mb-4">
-        <Button variant="ghost" size="icon" onClick={onPreviousMonth} className="text-white">
+        <Button variant="ghost" size="icon" onClick={onPreviousMonth} className="text-black border-zinc-600 bg-white">
           <ChevronLeft className="h-6 w-6" />
         </Button>
         <h2 className="text-xl font-bold text-white">{format(currentMonth, "MMMM - yyyy")}</h2>
-        <Button variant="ghost" size="icon" onClick={onNextMonth} className="text-white">
+        <Button variant="ghost" size="icon" onClick={onNextMonth} className="text-black border-zinc-600 bg-white">
           <ChevronRight className="h-6 w-6" />
         </Button>
       </div>
 
       <div className="bg-zinc-800 rounded-lg p-4">
-        <div className="h-[300px]">
+        <div className="h-[64vh]">
+          <div className="text-white flex justify-center top-4">Total Spent: ₹{totalExpenses.toLocaleString()}</div>
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
               <PolarGrid stroke="#444" />
               <PolarAngleAxis dataKey="subject" tick={{ fill: "#fff" }} />
-              <PolarRadiusAxis angle={30} domain={[0, "auto"]} tick={{ fill: "#888" }} />
-              <Radar name="Expenses" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+              <PolarRadiusAxis angle={0} domain={[0, "auto"]} tick={{ fill: "#888" }} />
+              <Radar name="Spent" dataKey="A" stroke="#bbbbbb" fill="#bbbbbb" fillOpacity={0.6} />
               <Tooltip content={<CustomTooltip />} />
             </RadarChart>
           </ResponsiveContainer>
         </div>
       </div>
     </div>
+
   )
 }

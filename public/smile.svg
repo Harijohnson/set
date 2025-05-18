@@ -1,0 +1,53 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle with gentle pulsing -->
+  <circle cx="100" cy="100" r="90" stroke="white" stroke-width="5" fill="none">
+    <animate attributeName="r"
+             values="90;92;90;91;90"
+             keyTimes="0;0.25;0.5;0.75;1"
+             calcMode="spline"
+             keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+             dur="8.7s"
+             begin="0s"
+             repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Left eye with natural blinking -->
+  <ellipse cx="65" cy="70" rx="10" ry="15" fill="white">
+    <animate attributeName="ry"
+             values="15;1;15"
+             keyTimes="0;0.1;1"
+             keySplines="0.5 0 0.7 1;0.1 0.8 0.2 1"
+             dur="4.3s"
+             begin="0.5s"
+             repeatCount="indefinite" />
+  </ellipse>
+  
+  <!-- Right eye with different blink timing -->
+  <ellipse cx="135" cy="70" rx="10" ry="15" fill="white">
+    <animate attributeName="ry"
+             values="15;1;15"
+             keyTimes="0;0.1;1"
+             keySplines="0.5 0 0.7 1;0.1 0.8 0.2 1"
+             dur="5.2s"
+             begin="2.1s"
+             repeatCount="indefinite" />
+  </ellipse>
+  
+  <!-- Mouth with more complex speaking movement -->
+  <path d="M 60 120 Q 100 150 140 120" fill="transparent" stroke="white" stroke-width="5">
+    <animate attributeName="d"
+             values="
+               M 60 120 Q 100 150 140 120;
+               M 60 125 Q 100 165 140 125;
+               M 60 118 Q 100 140 140 118;
+               M 60 122 Q 100 155 140 122;
+               M 60 120 Q 100 150 140 120"
+             keyTimes="0;0.2;0.5;0.8;1"
+             dur="6.9s"
+             repeatCount="indefinite"
+             keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+             calcMode="spline"/>
+  </path>
+  
+
+</svg>

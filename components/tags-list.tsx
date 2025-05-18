@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Edit, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -25,6 +25,36 @@ export function TagsList({ tags, onUpdateTag, onDeleteTag }: TagsListProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [newTagName, setNewTagName] = useState("")
   const [newTagColor, setNewTagColor] = useState("")
+  const [activeTagId, setActiveTagId] = useState<string | null>(null)
+  const [isButtonHovered, setIsButtonHovered] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Clear timeout on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseEnter = (tagId: string) => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setActiveTagId(tagId);
+  };
+
+  const handleMouseLeave = () => {
+    // Only hide if buttons aren't being hovered
+    if (!isButtonHovered) {
+      timeoutRef.current = setTimeout(() => {
+        setActiveTagId(null);
+      }, 500);
+    }
+  };
 
   const handleEditTag = (tag: Tag) => {
     setEditingTag(tag)
@@ -45,38 +75,48 @@ export function TagsList({ tags, onUpdateTag, onDeleteTag }: TagsListProps) {
     }
   }
 
-  // Define tag colors based on the image
-  const tagColors = {
-    Food: "#3b5bdb", // Blue
-    Entertainment: "#94d82d", // Lime green
-    Books: "#38d9a9", // Teal
-    Subscription: "#e03131", // Red
-    Investment: "#cc5de8", // Purple
-    Groceries: "#495057", // Gray
-  }
 
   return (
-    <div className="flex flex-col space-y-2 mt-4">
+    <div className="flex flex-col space-y-2 mt-2">
       {tags.map((tag) => (
-        <div key={tag.id} className="flex items-center group relative">
-          <div className="w-4 h-4 rounded-full mr-2" style={{ backgroundColor: tag.color }}></div>
-          <span className="text-sm">{tag.name}</span>
-          <div className="absolute right-0 hidden group-hover:flex space-x-1">
+        <div 
+          key={tag.id} 
+          className="flex items-center justify-between w-full py-1 px-3 rounded-md hover:bg-zinc-300 transition-colors cursor-pointer"
+          onMouseEnter={() => handleMouseEnter(tag.id)}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="flex items-center flex-grow">
+            <div className="w-4 h-4 rounded-full mr-3" style={{ backgroundColor: tag.color }}></div>
+            <span className="text-sm">{tag.name}</span>
+          </div>
+          <div 
+            className={`flex space-x-1 transition-opacity duration-300 ${
+              activeTagId === tag.id ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+            onMouseEnter={() => setIsButtonHovered(true)}
+            onMouseLeave={() => setIsButtonHovered(false)}
+          >
             <Button
               variant="ghost"
-              size="icon"
-              className="h-6 w-6 text-gray-400 hover:text-white"
-              onClick={() => handleEditTag(tag)}
+              size="sm"
+              className="h-7 w-7 p-0 text-gray-400 hover:text-white hover:bg-zinc-500"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditTag(tag);
+              }}
             >
-              <Edit className="h-3 w-3" />
+              <Edit className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
-              size="icon"
-              className="h-6 w-6 text-gray-400 hover:text-red-500"
-              onClick={() => onDeleteTag(tag.id)}
+              size="sm"
+              className="h-7 w-7 p-0 text-gray-400 hover:text-red-600 hover:bg-zinc-500"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeleteTag(tag.id);
+              }}
             >
-              <Trash2 className="h-3 w-3" />
+              <Trash2 className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -122,7 +162,7 @@ export function TagsList({ tags, onUpdateTag, onDeleteTag }: TagsListProps) {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)} className="bg-zinc-700">
               Cancel
             </Button>
             <Button onClick={handleUpdateTag}>Save Changes</Button>

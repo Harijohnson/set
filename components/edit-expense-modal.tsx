@@ -132,7 +132,7 @@ export function EditExpenseModal({ isOpen, onClose, onUpdateExpense, tags, expen
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date</FormLabel>
-                  <Popover>
+                  <Popover modal>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
